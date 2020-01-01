@@ -1,0 +1,26 @@
+{
+  "name": "flexbox-engine",
+  "version": "1.0.0",
+  "description": "# Result ![result.png](result.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel --"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoangpq/simple-flexbox-engine.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoangpq/simple-flexbox-engine/issues"
+  },
+  "homepage": "https://github.com/hoangpq/simple-flexbox-engine#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/plugin-transform-react-jsx": "^7.7.7"
+  }
+}

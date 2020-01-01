@@ -1,0 +1,10 @@
+[package]
+name = "flexbox-engine"
+version = "0.1.0"
+authors = ["hoangpq <pquochoang2007@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+mini-v8 = "0.1.0"
+stretch = "0.3.2"
+yoga = "0.3.1"
