@@ -1,5 +1,5 @@
 [package]
-name = "flexbox-engine"
+name = "js-flexbox-engine"
 version = "0.1.0"
 authors = ["hoangpq <pquochoang2007@gmail.com>"]
 edition = "2018"
