@@ -3,7 +3,7 @@
 # Building
 - Follow [mini-v8](https://github.com/SkylerLipthay/mini-v8) to build
 ```bash
-npm run build
+npm i
 cargo run
 ```
 
