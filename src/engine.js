@@ -20,6 +20,5 @@ View.prototype.render = function () {
 
 // factory to create jsx instance
 function createElement(Constructor, props, ...children) {
-  print(JSON.stringify(props));
   return new Constructor(props, children);
 }

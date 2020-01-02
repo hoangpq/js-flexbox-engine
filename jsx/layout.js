@@ -30,17 +30,19 @@ function render() {
       <View style={{
         flexGrow: 0.5,
         flexDirection: 'row',
+        flexWrap: 'wrap'
       }}>
         <View style={{
-          flexGrow: 1,
+          flexGrow: 0.5,
           background: '#6200EE'
         }}/>
         <View style={{
-          flexGrow: 1,
+          flexGrow: 0.3,
           background: '#448AFF'
         }}/>
         <View style={{
           flexGrow: 1,
+          width: 300,
           background: '#F3D8BD'
         }}/>
       </View>

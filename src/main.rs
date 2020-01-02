@@ -1,9 +1,9 @@
 extern crate mini_v8;
 extern crate yoga;
 
-use yoga::FlexDirection;
 use yoga::Node;
 use yoga::*;
+use yoga::{FlexDirection, Wrap};
 
 use mini_v8::{Error as MV8Error, Invocation, MiniV8, Value};
 use std::cell::RefCell;
@@ -71,48 +71,51 @@ fn main() {
     let create_node = mv8.create_function(move |inv: Invocation| {
         let (child_nodes, style): (Vec<u64>, HashMap<String, Value>) = inv.args.into(inv.mv8)?;
 
-        let flex_shrink = match style.get("flexShrink") {
-            Some(val) => val.as_number().unwrap() as f32,
-            None => 1f32,
-        };
+        let mut node = Node::new();
 
-        let flex_grow = match style.get("flexGrow") {
-            Some(val) => val.as_number().unwrap() as f32,
-            None => 0f32,
-        };
+        if let Some(val) = style.get("flexShrink") {
+            let val = val.as_number().expect("flexShrink must be number") as f32;
+            node.set_flex_shrink(val);
+        }
 
-        let flex_direction = match style.get("flexDirection") {
-            Some(val) => match &*val.as_string().unwrap().to_string() {
+        if let Some(val) = style.get("flexGrow") {
+            let val = val.as_number().expect("flexGrow must be number") as f32;
+            node.set_flex_grow(val);
+        }
+
+        if let Some(val) = style.get("flexDirection") {
+            let val = &*val
+                .as_string()
+                .expect("flexDirection must be string")
+                .to_string();
+            let val = match val {
                 "column" => FlexDirection::Column,
                 _ => FlexDirection::Row,
-            },
-            None => FlexDirection::Row,
-        };
+            };
+            node.set_flex_direction(val);
+        }
 
-        dbg!(flex_direction);
+        if let Some(val) = style.get("flexWrap") {
+            let val = &*val
+                .as_string()
+                .expect("flexWrap must be string")
+                .to_string();
+            let val = match val {
+                "wrap" => Wrap::Wrap,
+                _ => Wrap::NoWrap,
+            };
+            node.set_flex_wrap(val);
+        }
 
-        let width = match style.get("width") {
-            Some(val) => {
-                let val = val.as_number().unwrap_or(0f64) as f32;
-                StyleUnit::Point(val.into())
-            }
-            None => StyleUnit::Auto,
-        };
+        if let Some(val) = style.get("width") {
+            let val = val.as_number().expect("width must be number") as f32;
+            node.set_width(StyleUnit::Point(val.into()));
+        }
 
-        let height = match style.get("height") {
-            Some(val) => {
-                let val = val.as_number().unwrap_or(0f64) as f32;
-                StyleUnit::Point(val.into())
-            }
-            None => StyleUnit::Auto,
-        };
-
-        let mut node = Node::new();
-        node.set_flex_direction(flex_direction);
-        node.set_flex_shrink(flex_shrink);
-        node.set_flex_grow(flex_grow);
-        node.set_width(width);
-        node.set_height(height);
+        if let Some(val) = style.get("height") {
+            let val = val.as_number().expect("height must be number") as f32;
+            node.set_height(StyleUnit::Point(val.into()));
+        }
 
         Ok(LAYOUT.with(|layout| {
             let mut layout = layout.borrow_mut();
@@ -167,7 +170,6 @@ fn main() {
 
             if let Some(node) = layout.get_mut(&node) {
                 let layout = node.get_layout();
-                dbg!(&layout);
 
                 style.insert("top", layout.top());
                 style.insert("left", layout.left());
