@@ -52,7 +52,7 @@ fn load_bundle(mv8: &MiniV8, path: &str) {
         if let Ok(_val) = mv8.eval::<Value>(&script) {
             let script = r#"
                 const root = render();
-                calculateLayout(root.node);
+                calculate(root.node);
                 writeData(root.render());
             "#;
             let _: Result<Value, MV8Error> = mv8.eval(script);
@@ -141,7 +141,7 @@ fn main() {
         }))
     });
 
-    let calculate_layout = mv8.create_function(|_inv: Invocation| {
+    let calculate = mv8.create_function(|_inv: Invocation| {
         ROOT.with(|root| {
             let node = *root.borrow();
 
@@ -197,9 +197,7 @@ fn main() {
     let global = mv8.global();
 
     global.set("print", print.clone()).unwrap();
-    global
-        .set("calculateLayout", calculate_layout.clone())
-        .unwrap();
+    global.set("calculate", calculate.clone()).unwrap();
 
     global.set("createNode", create_node.clone()).unwrap();
     global.set("getLayout", get_layout.clone()).unwrap();

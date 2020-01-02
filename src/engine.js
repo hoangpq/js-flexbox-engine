@@ -13,9 +13,11 @@ View.prototype.render = function () {
   const {top, left, width, height} = getLayout(node);
   const {background = '#ffffff'} = props.style;
 
-  let html = `<div style="position:absolute;background:${background};top:${top}px;left:${left}px;width:${width}px;height:${height}px;">`;
-  const childHtml = children.map(child => child.render()).join('');
-  return html + childHtml + '</div>';
+  return [
+    `<div style="position:absolute;background:${background};top:${top}px;left:${left}px;width:${width}px;height:${height}px;">`,
+    children.map(child => child.render()).join(''),
+    '</div>'
+  ].join('');
 };
 
 // factory to create jsx instance
