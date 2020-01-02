@@ -1,3 +1,4 @@
+extern crate jni;
 extern crate mini_v8;
 extern crate yoga;
 
@@ -5,6 +6,8 @@ use yoga::Node;
 use yoga::*;
 use yoga::{FlexDirection, Wrap};
 
+use jni::objects::JClass;
+use jni::JNIEnv;
 use mini_v8::{Error as MV8Error, Invocation, MiniV8, Value};
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -207,4 +210,10 @@ fn main() {
     let _: Result<Value, MV8Error> = mv8.eval(&engine_script);
 
     load_bundle(&mv8, "jsx/layout.js");
+}
+
+#[no_mangle]
+#[allow(non_snake_case)]
+pub extern "C" fn Java_Engine_hello(env: JNIEnv, _class: JClass) {
+    println!("{}", "Hello World!!");
 }
